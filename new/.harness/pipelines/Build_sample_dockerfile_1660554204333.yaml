@@ -1,0 +1,43 @@
+pipeline:
+    name: Build sample-dockerfile
+    identifier: Build_sample_dockerfile_1660554204333
+    projectIdentifier: assignment01
+    orgIdentifier: Assignment
+    stages:
+        - stage:
+              name: Build Stage
+              identifier: Build_Stage
+              description: ""
+              type: CI
+              spec:
+                  cloneCodebase: true
+                  infrastructure:
+                      type: KubernetesHosted
+                      spec:
+                          identifier: k8s-hosted-infra
+                  execution:
+                      steps:
+                          - step:
+                                type: Run
+                                name: RUN
+                                identifier: RUN
+                                spec:
+                                    connectorRef: account.harnessImage
+                                    image: alpine
+                                    shell: Sh
+                                    command: echo "welcome to Harness io -sree"
+                          - step:
+                                type: BuildAndPushDockerRegistry
+                                name: build-push-docker
+                                identifier: buildpushdocker
+                                spec:
+                                    connectorRef: dockerconnectornew
+                                    repo: sreelk589/harness-asgn01
+                                    tags:
+                                        - <+pipeline.sequenceId>
+    properties:
+        ci:
+            codebase:
+                connectorRef: githubassignmentorg
+                repoName: firstdrone
+                build: <+input>
