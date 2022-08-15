@@ -1,0 +1,16 @@
+connector:
+  name: docker-connector-new
+  identifier: dockerconnectornew
+  description: ""
+  orgIdentifier: Assignment
+  projectIdentifier: assignment01
+  type: DockerRegistry
+  spec:
+    dockerRegistryUrl: https://index.docker.io/v2/
+    providerType: DockerHub
+    auth:
+      type: UsernamePassword
+      spec:
+        username: sreelk589
+        usernameRef: null
+        passwordRef: sreelk589dockerhubcred
