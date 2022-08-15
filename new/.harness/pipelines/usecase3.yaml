@@ -1,0 +1,58 @@
+pipeline:
+    name: usecase3
+    identifier: usecase3
+    projectIdentifier: assignment01
+    orgIdentifier: Assignment
+    tags: {}
+    properties:
+        ci:
+            codebase:
+                connectorRef: githubassignmentorg
+                repoName: firstdrone
+                build: <+input>
+    stages:
+        - parallel:
+              - stage:
+                    name: build
+                    identifier: build
+                    description: ""
+                    type: CI
+                    spec:
+                        cloneCodebase: true
+                        infrastructure:
+                            type: KubernetesHosted
+                            spec:
+                                identifier: k8s-hosted-infra
+                        execution:
+                            steps:
+                                - step:
+                                      type: Run
+                                      name: RUN
+                                      identifier: RUN
+                                      spec:
+                                          connectorRef: dockerconnectornew
+                                          image: alpine
+                                          shell: Sh
+                                          command: echo "welcome to harness io - build is success"
+              - stage:
+                    name: build 1
+                    identifier: build_1
+                    description: ""
+                    type: CI
+                    spec:
+                        cloneCodebase: true
+                        infrastructure:
+                            type: KubernetesHosted
+                            spec:
+                                identifier: k8s-hosted-infra
+                        execution:
+                            steps:
+                                - step:
+                                      type: Run
+                                      name: Run-build1
+                                      identifier: Runbuild1
+                                      spec:
+                                          connectorRef: dockerconnectornew
+                                          image: alpine
+                                          shell: Sh
+                                          command: echo "welcome to harness io - build 1 is success  "
