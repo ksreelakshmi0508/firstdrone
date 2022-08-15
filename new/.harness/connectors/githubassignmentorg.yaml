@@ -1,0 +1,23 @@
+connector:
+  name: github-assignment-org
+  identifier: githubassignmentorg
+  description: ""
+  orgIdentifier: Assignment
+  projectIdentifier: assignment01
+  type: Github
+  spec:
+    url: https://github.com/ksreelakshmi0508/
+    validationRepo: firstdrone
+    authentication:
+      type: Http
+      spec:
+        type: UsernameToken
+        spec:
+          username: ksreelakshmi0508
+          tokenRef: account.Github_Access_Token
+    apiAccess:
+      type: Token
+      spec:
+        tokenRef: account.Github_Access_Token
+    executeOnDelegate: false
+    type: Account
