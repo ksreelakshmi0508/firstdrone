@@ -1,0 +1,35 @@
+pipeline:
+    name: usecase2
+    identifier: usecase2
+    projectIdentifier: assignment01
+    orgIdentifier: Assignment
+    tags: {}
+    properties:
+        ci:
+            codebase:
+                connectorRef: githubassignmentorg
+                repoName: firstdrone
+                build: <+input>
+    stages:
+        - stage:
+              name: build
+              identifier: build
+              description: ""
+              type: CI
+              spec:
+                  cloneCodebase: true
+                  infrastructure:
+                      type: KubernetesHosted
+                      spec:
+                          identifier: k8s-hosted-infra
+                  execution:
+                      steps:
+                          - step:
+                                type: Run
+                                name: Run
+                                identifier: Run
+                                spec:
+                                    connectorRef: dockerconnectornew
+                                    image: alpine
+                                    shell: Sh
+                                    command: echo "welcome to harness io"
