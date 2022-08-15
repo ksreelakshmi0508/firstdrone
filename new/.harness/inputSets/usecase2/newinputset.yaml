@@ -1,0 +1,14 @@
+inputSet:
+  identifier: "newinputset"
+  name: "new-input-set"
+  orgIdentifier: "Assignment"
+  projectIdentifier: "assignment01"
+  pipeline:
+    identifier: "usecase2"
+    properties:
+      ci:
+        codebase:
+          build:
+            type: "branch"
+            spec:
+              branch: "master"
