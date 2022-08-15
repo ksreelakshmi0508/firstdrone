@@ -1,0 +1,69 @@
+pipeline:
+    name: usecase 1
+    identifier: usecase_1
+    projectIdentifier: assignment01
+    orgIdentifier: Assignment
+    tags: {}
+    stages:
+        - stage:
+              name: Harness approval stage
+              identifier: Harness_approval_stage
+              description: ""
+              type: Approval
+              spec:
+                  execution:
+                      steps:
+                          - step:
+                                name: harness approval
+                                identifier: harness_approval
+                                type: HarnessApproval
+                                timeout: 1d
+                                spec:
+                                    approvalMessage: |-
+                                        Please review the following information
+                                        and approve the pipeline progression
+                                    includePipelineExecutionHistory: true
+                                    approvers:
+                                        minimumCount: 1
+                                        disallowPipelineExecutor: false
+                                        userGroups:
+                                            - assignmentug
+                                    approverInputs: []
+              tags: {}
+        - stage:
+              name: Build Stage
+              identifier: Build_Stage
+              description: ""
+              type: CI
+              spec:
+                  cloneCodebase: true
+                  infrastructure:
+                      type: KubernetesHosted
+                      spec:
+                          identifier: k8s-hosted-infra
+                  execution:
+                      steps:
+                          - step:
+                                type: Run
+                                name: RUN
+                                identifier: RUN
+                                spec:
+                                    connectorRef: dockerconnectornew
+                                    image: alpine
+                                    shell: Sh
+                                    command: echo "Welcome to Harness io - sree"
+                          - step:
+                                type: BuildAndPushDockerRegistry
+                                name: build-push-docker
+                                identifier: buildpushdocker
+                                spec:
+                                    connectorRef: dockerconnectornew
+                                    repo: sreelk589/harness-asgn-usecase1
+                                    tags:
+                                        - <+pipeline.sequenceId>
+    properties:
+        ci:
+            codebase:
+                connectorRef: githubassignmentorg
+                repoName: firstdrone
+                build: <+input>
