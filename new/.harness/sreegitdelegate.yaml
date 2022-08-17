@@ -1,0 +1,22 @@
+connector:
+  name: sree-git-delegate
+  identifier: sreegitdelegate
+  orgIdentifier: Assignment
+  projectIdentifier: assignment01
+  type: Github
+  spec:
+    url: https://github.com/ksreelakshmi0508/website/
+    authentication:
+      type: Http
+      spec:
+        type: OAuth
+        spec:
+          tokenRef: account.harnessoauthaccesstoken_github_1660719750566
+    apiAccess:
+      type: OAuth
+      spec:
+        tokenRef: account.harnessoauthaccesstoken_github_1660719750566
+    delegateSelectors:
+    - newdelegate
+    executeOnDelegate: true
+    type: Repo
