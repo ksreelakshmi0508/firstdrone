@@ -34,6 +34,31 @@ pipeline:
                                     tags:
                                         - latest
         - stage:
+              name: approval stage
+              identifier: approval_stage
+              description: ""
+              type: Approval
+              spec:
+                  execution:
+                      steps:
+                          - step:
+                                name: approval stage
+                                identifier: approval_stage
+                                type: HarnessApproval
+                                timeout: 1d
+                                spec:
+                                    approvalMessage: |-
+                                        Please review the following information
+                                        and approve the pipeline progression
+                                    includePipelineExecutionHistory: true
+                                    approvers:
+                                        minimumCount: 1
+                                        disallowPipelineExecutor: false
+                                        userGroups:
+                                            - assignmentug
+                                    approverInputs: []
+              tags: {}
+        - stage:
               name: deploy
               identifier: deploy
               description: ""
@@ -92,3 +117,17 @@ pipeline:
                             - AllErrors
                         action:
                             type: StageRollback
+    notificationRules:
+        - name: notify
+          identifier: notify
+          pipelineEvents:
+              - type: StageFailed
+                forStages:
+                    - Build_Stage
+          notificationMethod:
+              type: Email
+              spec:
+                  userGroups: []
+                  recipients:
+                      - ksreelakshmi0508@gmail.com
+          enabled: true
