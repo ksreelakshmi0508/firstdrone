@@ -1,0 +1,35 @@
+pipeline:
+    name: trial-ci-cd
+    identifier: trialcicd
+    projectIdentifier: assignment01
+    orgIdentifier: Assignment
+    tags: {}
+    properties:
+        ci:
+            codebase:
+                connectorRef: githubassignmentorg
+                repoName: firstdrone
+                build: <+input>
+    stages:
+        - stage:
+              name: Build Stage
+              identifier: Build_Stage
+              description: ""
+              type: CI
+              spec:
+                  cloneCodebase: true
+                  infrastructure:
+                      type: KubernetesHosted
+                      spec:
+                          identifier: k8s-hosted-infra
+                  execution:
+                      steps:
+                          - step:
+                                type: BuildAndPushDockerRegistry
+                                name: docker-build-push
+                                identifier: dockerbuildpush
+                                spec:
+                                    connectorRef: dockerconnectornew
+                                    repo: sreelk589/demotrial
+                                    tags:
+                                        - latest
