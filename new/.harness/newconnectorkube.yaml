@@ -1,0 +1,12 @@
+connector:
+  name: newconnector-kube
+  identifier: newconnectorkube
+  description: ""
+  orgIdentifier: Assignment
+  projectIdentifier: assignment01
+  type: K8sCluster
+  spec:
+    credential:
+      type: InheritFromDelegate
+    delegateSelectors:
+    - newdelegate
