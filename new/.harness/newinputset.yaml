@@ -1,0 +1,14 @@
+inputSet:
+  identifier: "newinputset"
+  name: "newinputset"
+  orgIdentifier: "Assignment"
+  projectIdentifier: "assignment01"
+  pipeline:
+    identifier: "trialcicd"
+    properties:
+      ci:
+        codebase:
+          build:
+            type: "branch"
+            spec:
+              branch: "master"
