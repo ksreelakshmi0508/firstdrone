@@ -33,3 +33,61 @@ pipeline:
                                     repo: sreelk589/demotrial
                                     tags:
                                         - latest
+        - stage:
+              name: deploy
+              identifier: deploy
+              description: ""
+              type: Deployment
+              spec:
+                  serviceConfig:
+                      serviceRef: newservice
+                      serviceDefinition:
+                          spec:
+                              variables: []
+                              manifests:
+                                  - manifest:
+                                        identifier: manifest
+                                        type: K8sManifest
+                                        spec:
+                                            store:
+                                                type: Github
+                                                spec:
+                                                    connectorRef: githubassignmentorg
+                                                    gitFetchType: Branch
+                                                    paths:
+                                                        - content/en/examples/application/nginx-app.yaml
+                                                    branch: main
+                                            skipResourceVersioning: false
+                          type: Kubernetes
+                  infrastructure:
+                      environmentRef: newenvironment
+                      infrastructureDefinition:
+                          type: KubernetesDirect
+                          spec:
+                              connectorRef: newconnectorkube
+                              namespace: harness-delegate-ng
+                              releaseName: release-<+INFRA_KEY>
+                      allowSimultaneousDeployments: false
+                  execution:
+                      steps:
+                          - step:
+                                name: Rollout Deployment
+                                identifier: rolloutDeployment
+                                type: K8sRollingDeploy
+                                timeout: 10m
+                                spec:
+                                    skipDryRun: false
+                      rollbackSteps:
+                          - step:
+                                name: Rollback Rollout Deployment
+                                identifier: rollbackRolloutDeployment
+                                type: K8sRollingRollback
+                                timeout: 10m
+                                spec: {}
+              tags: {}
+              failureStrategies:
+                  - onFailure:
+                        errors:
+                            - AllErrors
+                        action:
+                            type: StageRollback
