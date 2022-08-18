@@ -1,0 +1,58 @@
+pipeline:
+    name: restaurant_atlas_search
+    identifier: restaurant_atlas_search
+    projectIdentifier: assignment01
+    orgIdentifier: Assignment
+    tags: {}
+    properties:
+        ci:
+            codebase:
+                connectorRef: githubassignmentorg
+                repoName: " restaurant-atlas-search"
+                build: <+input>
+    stages:
+        - parallel:
+              - stage:
+                    name: build-stage
+                    identifier: buildstage
+                    description: ""
+                    type: CI
+                    spec:
+                        cloneCodebase: true
+                        infrastructure:
+                            type: KubernetesHosted
+                            spec:
+                                identifier: k8s-hosted-infra
+                        execution:
+                            steps:
+                                - step:
+                                      type: BuildAndPushDockerRegistry
+                                      name: docker-client
+                                      identifier: dockerclient
+                                      spec:
+                                          connectorRef: dockerconnectornew
+                                          repo: sreelk589/restaurant-atlas-search-client
+                                          tags:
+                                              - <+pipeline.sequenceId>
+              - stage:
+                    name: build-stage-sever
+                    identifier: buildstagesever
+                    description: ""
+                    type: CI
+                    spec:
+                        cloneCodebase: true
+                        infrastructure:
+                            type: KubernetesHosted
+                            spec:
+                                identifier: k8s-hosted-infra
+                        execution:
+                            steps:
+                                - step:
+                                      type: BuildAndPushDockerRegistry
+                                      name: docker-server
+                                      identifier: dockerserver
+                                      spec:
+                                          connectorRef: dockerconnectornew
+                                          repo: sreelk589/restaurant-atlas-search-server
+                                          tags:
+                                              - <+pipeline.sequenceId>
